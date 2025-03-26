@@ -27,14 +27,15 @@ import Card from "./Card";
 
 // export default Body;
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer";
+import userContext from "../utils/context";
 
 const Body = () => {
     const [listOfRestaurants, setListOfRestaurants] = useState([]);
     const [filteredListOfRestaurants, setFilteredListOfRestaurants] = useState([]);
     const [searchText, setsearchText] = useState("")
-
+    const {setText, loggedInUser} = useContext(userContext)
     // Fetch Data When Component Mounts
     useEffect(() => {
         const fetchData = async () => {
@@ -57,8 +58,10 @@ const Body = () => {
     }, []); // Empty dependency array ensures this runs once
    
     return listOfRestaurants.length === 0 ? <Shimmer/>: (
+    
         <div className="body">
             <div>
+                {console.log(setText)}
                 <input className="m-auto my-2 border-solid border-e-black rounded-md invalid:border-pink-500 invalid:text-pink-600 focus:border-sky-500 focus:outline focus:outline-sky-500 focus:invalid:border-pink-500 focus:invalid:outline-pink-500 disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none dark:disabled:border-gray-700 dark:disabled:bg-gray-800/20 mx-2 p-2"
                  value={searchText} placeholder="What's on your mind?" onChange={
                     (e)=>{
@@ -81,6 +84,7 @@ const Body = () => {
                 >
                     Good Restaurants
                 </button>
+                <input type="text" placeholder="setName" value={loggedInUser} onChange={(e)=>setText(e.target.value)}></input>
             </div>
             <div className="cardContainer">
                 {filteredListOfRestaurants.map((elem) => (

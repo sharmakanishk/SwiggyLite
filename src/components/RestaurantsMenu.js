@@ -6,11 +6,11 @@ import { useParams } from 'react-router-dom'
 import RestaurantMenuToggle from './RestaurantMenuToggle'
 
 const RestaurantsMenu = () => {
-   
+    const [showMenu, setShowMenu] = useState(true)
+    const [showIndex, setShowIndex] = useState(null)
     const {id} = useParams();
     const resInfo = useRestaurantMenu(id);
     if(resInfo === null) return <Shimmer/>
-    console.log(resInfo)
     const {text} = resInfo?.data?.cards?.[0].card?.card;
     const lastIndex = resInfo?.data?.cards?.length - 1; // Get last index dynamically
     const { cards } = resInfo?.data?.cards?.[lastIndex]?.groupedCard?.cardGroupMap?.REGULAR 
@@ -27,7 +27,18 @@ const RestaurantsMenu = () => {
                 if((dish?.card?.card["@type"]==="type.googleapis.com/swiggy.presentation.food.v2.NestedItemCategory" 
                      || dish?.card?.card["@type"] ==="type.googleapis.com/swiggy.presentation.food.v2.ItemCategory")){
                return(
-                <RestaurantMenuToggle key={dish?.card?.card?.categoryId} dish={dish}/>
+                <RestaurantMenuToggle key={dish?.card?.card?.categoryId} 
+                dish={dish}
+                index={index}
+                showBlock={(index)=>setShowIndex(index)}
+                showItems={showIndex===index && showMenu}
+                setMenuVisibility={()=>{
+                    if(index===showIndex)
+                        setShowMenu(!showMenu)
+                    else
+                        setShowMenu(true)
+                }}  
+                />
                )
             }
             else{

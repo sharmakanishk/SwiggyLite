@@ -9,10 +9,17 @@ import Error from "./components/Error";
 import NavBar from "./components/NavBar";
 import RestaurantsMenu from "./components/RestaurantsMenu";
 
+import userContext from "./utils/context";
+import { useState } from "react";
+
+
 const AppContainer = ()=>{
+    const [text, setText] = useState("Kanishk")
     return (<div id="container">
         <NavBar/>
-        <Outlet/>
+        <userContext.Provider value={{ loggedInUser:text, setText}}>
+            <Outlet/>
+        </userContext.Provider>
     </div>
 );
 }

@@ -1,19 +1,20 @@
 import React, {useState} from 'react'
 
-const RestaurantMenuToggle = ({dish}) => {
-     const [showMenu, setShowMenu] = useState(false)
+const RestaurantMenuToggle = ({dish,index, showBlock, showItems, setMenuVisibility}) => {
+     
      const handleClick = ()=>{
-        setShowMenu(!showMenu);
+        showBlock(index);
+        setMenuVisibility()
     }
     const arr = dish?.card?.card?.itemCards || dish?.card?.card?.categories?.flatMap((category)=>category.itemCards) || [];
      return (
-        <div  >
+        <div  className='w-6/12 m-auto'>
             <div className='flex justify-between m-1 p-6 bg-gray-300 rounded-md ' onClick={handleClick}>
               
                 <span className='font-bold'>{dish?.card?.card?.title + "("+ arr.length+")"}</span>
                 <span>⬇️</span>
             </div>
-            {showMenu && <div>
+            {showItems && <div >
                  {/* ✅ Ensure `itemCards` exists before calling `.map()` */}
                  { dish?.card?.card["@type"]==="type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"? (
                     dish?.card?.card?.itemCards.map((item) => (

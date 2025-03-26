@@ -1,8 +1,11 @@
+import { useContext } from "react";
 import { altImage, baseUrl } from "../utils/url";
 import { Link } from "react-router-dom";
+import userContext from "../utils/context";
 
-const Card = (props)=>{
+const Card = (props)=>{ 
     const {name, cuisines, avgRating, sla, cloudinaryImageId, id} = props.res.info;
+    const user = useContext(userContext);
     return (
         <div className=" inline-flex">
             <Link to={"/restaurants/"+id}><div className="bg-gray-100 m-1 p-4 rounded-md hover:bg-gray-200 w-56 h-96">
@@ -16,6 +19,7 @@ const Card = (props)=>{
                     <h5>{cuisines.join(", ")}</h5>
                     <h5 className="font-semibold">{avgRating + " stars"}</h5>
                     <h5>{sla.deliveryTime + " mins"}</h5>
+                    <p>{user?.loggedInUser}</p>
                 </div>
             </div></Link>
         </div>

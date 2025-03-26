@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { appLogo } from "../utils/url";
 import { Link } from "react-router-dom";
+import userContext from "../utils/context";
 
 const NavBar = ()=>{
     const [loginButton, setloginButton] = useState("Login")
     const [onlineStaus, setOnlineStatus] = useState(true)
+    const {loggedInUser} = useContext(userContext)
     useEffect(()=>{
         const handleOnline=()=>setOnlineStatus(true)
         const handleOffline = ()=>setOnlineStatus(false)
@@ -22,13 +24,14 @@ const NavBar = ()=>{
         src={appLogo}
         alt="App Icon">
         </img>
-        <ul className="flex items-center p-4 m-4">
-            <li className="p-4">Online Status:{onlineStaus?" ✅online":" ❌offline"}</li>
-            <li className="p-4"><Link to="/about">About</Link></li>
-            <li className="p-4"><Link to="/">Home</Link></li>
-            <li className="p-4"><Link to="/contact">Contact</Link></li>
-            <li className="p-4">Cart</li>
-            <li className="p-4"><button className="bg-green-200 px-4 py-2 rounded-md" onClick={()=>{
+        <ul className="flex items-center p-4 m-4 text-sm">
+            <li>{loggedInUser}</li>
+            <li className="p-2">Status:{onlineStaus?" ✅online":" ❌offline"}</li>
+            <li className="p-2"><Link to="/about">About</Link></li>
+            <li className="p-2"><Link to="/">Home</Link></li>
+            <li className="p-2"><Link to="/contact">Contact</Link></li>
+            <li className="p-2">Cart</li>
+            <li className="p-2"><button className="bg-green-200 px-4 py-2 rounded-md" onClick={()=>{
                 loginButton === "Login" ? setloginButton("Logout") : setloginButton("Login")
             }
             }>{loginButton}</button></li>
